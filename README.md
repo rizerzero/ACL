@@ -16,8 +16,11 @@ $acl = new Acl();
 $acl->addRole('papy');
 $acl->addRole('papa', 'papy');
 $acl->addRole('maman');
-$acl->addRole('moi', array('papa', 'maman'));
+$acl->addRole('moi');
 $acl->addRole('enfant', 'moi');
+//l'héritage multiples 
+$acl->addRole(array('tata','tonton'),'papy');
+	
 	
 // Les ressources
 $acl->addResource('chezPapy');
