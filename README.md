@@ -6,7 +6,7 @@ Un système de scope permet de diviser les droits en module.
 
 Utilisation
 ===========
-```
+```php
 <?php
 // Initialisation
 require 'Acl.php';
