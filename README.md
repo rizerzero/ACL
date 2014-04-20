@@ -23,7 +23,7 @@ $acl->addRole('enfant', 'moi');
 $acl->addResource('chezPapy');
 $acl->addResource('chezParent');
 $acl->addResource('chezMoi');
-	
+
 // Les droits
 $acl->allow('papy', 'chezPapy');
 $acl->allow('papa', 'chezParent');
@@ -33,6 +33,11 @@ $acl->allow('moi', 'chezMoi');
 // Un petit test de l'héritage
 // Ici : "moi" et "enfant" n'ont plus accès à "chezPapy"
 $acl->deny('papa', 'chezPapy');
+
+// Utilisation des scopes/modules pour séparer les droits
+$acl->addResource(array('lire', 'ecrire', 'modifier', 'supprimer'), 'news'); // Module news
+$acl->addResource(array('lire', 'ecrire', 'modifier', 'supprimer'), 'article'); // Module article
+$acl->allow('redacteur', array('lire', 'ecrire', 'modifier'), 'article');
 
 // Pour le débuggage : affichage des roles, ressources, droits
 echo $acl->debug();
