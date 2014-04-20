@@ -30,22 +30,31 @@ class Acl {
      * @param string|array $parents Nom du role parent, vide pour aucun, un array pour plusieurs parents
      * @return Acl Les ACL
      */
-    public function addRole($role, $parents = '') {
-	    if (is_string($parents)) {
-	      if ($parents == '') {
-		      $this->roles[$role] = array();
-	      } else {
-		      $this->roles[$role][] = $parents;
-	      }
-	    } elseif (is_array($parents)) {
-	      foreach ($parents as $parent) {
-		      $this->roles[$role][] = $parent;
-	      }
-	    } else {
-	      trigger_error("Le paramètre parents doit être un string ou un array", E_USER_ERROR);
-	    }
-	
-	    return $this;
+    public function addRole($role, $parents =null) {
+        if($parents) {
+          if (is_string($parents)) {
+            if($this->isRoleExist($parents)) {
+               $this->roles[$role][] = $parents;
+            } else {
+            trigger_error(" le parenet $parents n' exite pas ", E_USER_ERROR);
+              }
+          
+          } elseif (is_array($parents)) {
+            foreach ($parents as $parent) {
+              if($this->isRoleExist($parent)) {
+                $this->roles[$role][] = $parent;
+              } else {
+              trigger_error(" le parenet $parent n' exite pas ", E_USER_ERROR);
+              }
+            }
+          } else {
+          trigger_error("Le paramètre parents doit être un string ou un array", E_USER_ERROR);
+          }
+        }else{
+
+        $this->roles[$role] = array();
+        }
+        return $this;
     }
     
     /**
