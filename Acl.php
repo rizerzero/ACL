@@ -30,31 +30,27 @@ class Acl {
      * @param string|array $parents Nom du role parent, vide pour aucun, un array pour plusieurs parents
      * @return Acl Les ACL
      */
-    public function addRole($role, $parents =null) {
-        if($parents) {
-          if (is_string($parents)) {
-            if($this->isRoleExist($parents)) {
-               $this->roles[$role][] = $parents;
-            } else {
-            trigger_error(" le parenet $parents n' exite pas ", E_USER_ERROR);
-              }
-          
-          } elseif (is_array($parents)) {
-            foreach ($parents as $parent) {
-              if($this->isRoleExist($parent)) {
-                $this->roles[$role][] = $parent;
+    public function addRole($roles, $parent =null) {
+        if($parent) {
+          if(is_array($roles)) {
+            foreach ($roles as $role) {
+              if($this->isRoleExist($parent)&&($role!=$parent)) {
+                  $this->roles[$role][] = $parent;
               } else {
-              trigger_error(" le parenet $parent n' exite pas ", E_USER_ERROR);
+              trigger_error(" le parenet $parent n' exite pas , ou il est identique au role et ne peut donc pas hériter de lui même  ", E_USER_ERROR);
               }
+             }
+          }elseif (is_string($roles)) {
+            if($this->isRoleExist($parent)&&($roles!=$parent)) {
+                $this->roles[$roles][] = $parent;
+            } else {
+            trigger_error(" soit le parenet $parent n' exite pas ,ou il est identique au role et ne peut donc pas hériter de lui même  ", E_USER_ERROR);
             }
-          } else {
-          trigger_error("Le paramètre parents doit être un string ou un array", E_USER_ERROR);
-          }
+            }
         }else{
-
-        $this->roles[$role] = array();
+        $this->roles[$roles] = array();
         }
-        return $this;
+        return $this; 
     }
     
     /**
